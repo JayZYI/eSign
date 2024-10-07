@@ -4,9 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var uploadCont = require('./controller/uploadCont'); 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var uploadRouter = require('./routes/upload'); // Import the upload route
 
 var app = express();
 
@@ -20,9 +21,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/upload', uploadCont); 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/upload', uploadRouter); // Use the upload route
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

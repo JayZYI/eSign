@@ -5,13 +5,19 @@ block content
   p Welcome to #{title}
   br
   form(action="/upload" method="POST" enctype="multipart/form-data")
-    // File input (PDF only)
     label(for="avatar") Upload PDF:
     br
-    input(type="file" name="avatar" accept=".pdf" required)
+    input(type="file" name="pdf" accept=".pdf" required)
     br
     br
-    // NIK field (integer only)
     label(for="nik") Enter NIK (Integer Only):
     input(type="number" name="nik" pattern="\d*" required)
+    br
+    p choose visibility!
+    input(type="radio" id="visible" name="visual" value="visible")
+    label(for="visible") visible
+    input(type="radio" id="invisible" name="visual" value="invisible")
+    label(for="invisible") invisible
+    br
+    br
     button(type="submit") Upload
