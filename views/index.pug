@@ -5,7 +5,7 @@ block content
   p Welcome to #{title}
   br
   form(action="/upload" method="POST" enctype="multipart/form-data")
-    label(for="avatar") Upload PDF:
+    label(for="pdf") Upload PDF:
     br
     input(type="file" name="pdf" accept=".pdf" required)
     br
@@ -13,11 +13,79 @@ block content
     label(for="nik") Enter NIK (Integer Only):
     input(type="number" name="nik" pattern="\d*" required)
     br
-    p choose visibility!
+    p Choose visibility:
     input(type="radio" id="visible" name="visual" value="visible")
-    label(for="visible") visible
+    label(for="visible") Visible
     input(type="radio" id="invisible" name="visual" value="invisible")
-    label(for="invisible") invisible
+    label(for="invisible") Invisible
     br
     br
-    button(type="submit") Upload
+    label(for="passphrase") Passphrase (optional):
+    input(type="password" name="passphrase")
+    br
+    label(for="totp") TOTP (optional, if using OTP):
+    input(type="text" name="totp")
+    br
+    br
+    button(type="submit") Upload and Sign
+
+  hr
+
+  // TOTP Request
+  form(action="/upload/request-totp" method="POST")
+    h3 Request TOTP for Signing
+    label(for="nikOrEmail") NIK or Email:
+    input(type="text" name="nikOrEmail" required)
+    br
+    button(type="submit") Request TOTP
+
+  hr
+
+  // Seal Activation
+  form(action="/upload/activate-seal" method="POST")
+    h3 Activate TOTP for Seal
+    label(for="idSubscriber") ID Subscriber:
+    input(type="text" name="idSubscriber" required)
+    br
+    button(type="submit") Activate Seal TOTP
+
+  hr
+
+  // Request Seal OTP
+  form(action="/upload/request-seal-otp" method="POST")
+    h3 Request Seal OTP
+    label(for="idSubscriber") ID Subscriber:
+    input(type="text" name="idSubscriber" required)
+    br
+    label(for="totp") TOTP:
+    input(type="text" name="totp" required)
+    br
+    button(type="submit") Request Seal OTP
+
+  hr
+
+  // Seal 
+  form(action="/upload/seal-pdf" method="POST" enctype="multipart/form-data")
+    h3 Apply Seal to PDF
+    label(for="pdf") Upload PDF:
+    input(type="file" name="pdf" accept=".pdf" required)
+    br
+    label(for="idSubscriber") ID Subscriber:
+    input(type="text" name="idSubscriber" required)
+    br
+    label(for="totp") TOTP:
+    input(type="text" name="totp" required)
+    br
+    label(for="location") Location (optional):
+    input(type="text" name="location")
+    br
+    label(for="reason") Reason (optional):
+    input(type="text" name="reason")
+    br
+    p Choose visibility for seal:
+    input(type="radio" id="visible" name="visual" value="visible")
+    label(for="visible") Visible
+    input(type="radio" id="invisible" name="visual" value="invisible")
+    label(for="invisible") Invisible
+    br
+    button(type="submit") Apply Seal
